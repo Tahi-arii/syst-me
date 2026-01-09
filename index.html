@@ -2,60 +2,71 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>SYSTEM SECURITY</title>
+<title>ACCESS SYSTEM</title>
 <style>
 body {
-  background: black;
-  color: red;
-  font-family: monospace;
-  text-align: center;
-  margin: 0;
-  padding: 20px;
+    background: black;
+    color: #00ff00;
+    font-family: monospace;
+    margin: 0;
+    padding: 10px;
+    overflow: hidden;
 }
-.photos {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 20px;
-  flex-wrap: wrap;
-}
-.photo {
-  width: 100px;
-  height: 100px;
-  border: 2px solid red;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
+#terminal {
+    white-space: pre;
+    line-height: 1.2em;
 }
 .blink {
-  animation: blink 1s infinite;
+    animation: blink 1s infinite;
 }
 @keyframes blink {
-  50% { opacity: 0; }
+    50% { opacity: 0; }
 }
 </style>
 </head>
 <body>
 
-<h1>⚠ ACCÈS AU SYSTÈME ⚠</h1>
-<p class="blink">Analyse des fichiers personnels...</p>
-
-<div class="photos">
-  <div class="photo">IMG_4021.jpg</div>
-  <div class="photo">IMG_4018.jpg</div>
-  <div class="photo">IMG_3999.jpg</div>
-  <div class="photo">IMG_3982.jpg</div>
-  <div class="photo">IMG_3975.jpg</div>
-</div>
-
-<p class="blink">Extraction terminée</p>
+<div id="terminal"></div>
 
 <script>
-setTimeout(() => {
-  document.body.innerHTML =
-    "<h1>TRANSFERT TERMINÉ</h1><p>Aucune action requise.</p>";
-}, 6000);
+// Messages à afficher
+const messages = [
+    "⚠ ACCÈS AU SYSTÈME ⚠",
+    "Connexion au serveur...",
+    "Analyse des fichiers personnels...",
+    "Récupération des logs...",
+    "Extraction des données...",
+    "Détection des fichiers récents...",
+    "Transfert des coordonnées...",
+    "Processus terminé.",
+    "Aucune action requise."
+];
+
+const terminal = document.getElementById('terminal');
+let index = 0;
+
+// Fonction pour afficher un message caractère par caractère
+function typeMessage(msg, i=0) {
+    if (i < msg.length) {
+        terminal.innerHTML += msg.charAt(i);
+        i++;
+        setTimeout(() => typeMessage(msg, i), 50); // vitesse du texte
+    } else {
+        terminal.innerHTML += "\n";
+        index++;
+        if (index < messages.length) {
+            setTimeout(() => typeMessage(messages[index]), 300); // délai entre messages
+        } else {
+            // Après tout le texte, fin de l'effet
+            setTimeout(() => {
+                terminal.innerHTML += "\n⚡ TRANSFERT TERMINÉ ⚡";
+            }, 500);
+        }
+    }
+}
+
+// Démarrer le script
+typeMessage(messages[index]);
 </script>
 
 </body>
