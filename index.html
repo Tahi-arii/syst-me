@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>ACCESS SYSTEM</title>
+<title>SYSTEM ACCESS</title>
 <style>
 body {
     background: black;
@@ -14,13 +14,8 @@ body {
 }
 #terminal {
     white-space: pre;
-    line-height: 1.2em;
-}
-.blink {
-    animation: blink 1s infinite;
-}
-@keyframes blink {
-    50% { opacity: 0; }
+    font-size: 14px;
+    line-height: 1.1em;
 }
 </style>
 </head>
@@ -29,44 +24,70 @@ body {
 <div id="terminal"></div>
 
 <script>
-// Messages à afficher
-const messages = [
-    "⚠ ACCÈS AU SYSTÈME ⚠",
-    "Connexion au serveur...",
-    "Analyse des fichiers personnels...",
-    "Récupération des logs...",
-    "Extraction des données...",
-    "Détection des fichiers récents...",
-    "Transfert des coordonnées...",
-    "Processus terminé.",
-    "Aucune action requise."
+const terminal = document.getElementById("terminal");
+
+// Messages initiaux (rapides)
+const intro = [
+  "[INIT] Connexion au serveur...",
+  "[OK] Accès autorisé",
+  "[SCAN] Analyse des fichiers...",
+  "[SCAN] Détection données récentes...",
+  "[UPLOAD] Transfert en cours...",
+  "[UPLOAD] 87%...",
+  "[UPLOAD] 100%",
+  "⚠ TRANSFERT TERMINÉ ⚠"
 ];
 
-const terminal = document.getElementById('terminal');
-let index = 0;
+// Messages spam (boucle rapide)
+const spamLines = [
+  "root@system:~$ access granted",
+  "decrypting packet 0xA42F91",
+  "uploading data chunk...",
+  "connection stable :: 192.168.1.██",
+  "hash verified ✔",
+  "injecting process...",
+  "bypass firewall...",
+  "reading memory block...",
+  "sync complete",
+  "writing buffer...",
+  "executing task...",
+  "listening on port ████",
+  "data stream active",
+  "signal locked",
+  "process forked"
+];
 
-// Fonction pour afficher un message caractère par caractère
-function typeMessage(msg, i=0) {
-    if (i < msg.length) {
-        terminal.innerHTML += msg.charAt(i);
-        i++;
-        setTimeout(() => typeMessage(msg, i), 50); // vitesse du texte
-    } else {
-        terminal.innerHTML += "\n";
-        index++;
-        if (index < messages.length) {
-            setTimeout(() => typeMessage(messages[index]), 300); // délai entre messages
-        } else {
-            // Après tout le texte, fin de l'effet
-            setTimeout(() => {
-                terminal.innerHTML += "\n⚡ TRANSFERT TERMINÉ ⚡";
-            }, 500);
-        }
-    }
+// Affichage rapide ligne par ligne
+let i = 0;
+function showIntro() {
+  if (i < intro.length) {
+    terminal.innerHTML += intro[i] + "\n";
+    i++;
+    setTimeout(showIntro, 200); // RAPIDE
+  } else {
+    startSpam();
+  }
 }
 
-// Démarrer le script
-typeMessage(messages[index]);
+// Effet spam massif ultra rapide
+function startSpam() {
+  setInterval(() => {
+    for (let j = 0; j < 5; j++) { // plusieurs lignes à la fois
+      const line = spamLines[Math.floor(Math.random() * spamLines.length)];
+      terminal.innerHTML += line + "\n";
+    }
+
+    // Scroll automatique
+    terminal.scrollTop = terminal.scrollHeight;
+
+    // Limite mémoire (évite crash navigateur)
+    if (terminal.innerHTML.length > 12000) {
+      terminal.innerHTML = terminal.innerHTML.slice(4000);
+    }
+  }, 50); // VITESSE TRÈS RAPIDE
+}
+
+showIntro();
 </script>
 
 </body>
